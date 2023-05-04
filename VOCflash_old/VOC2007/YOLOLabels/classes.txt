@@ -1,0 +1,4 @@
+flash
+photo
+text
+table

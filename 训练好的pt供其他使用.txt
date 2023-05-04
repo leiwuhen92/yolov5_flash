@@ -1,0 +1,28 @@
+1、新建一个文件夹
+2、将yolov5s-flash.pt复制到该目录下
+3、必须在yolov5项目中的hubconf.py中定义可调用(入口点)的名称：
+
+def yolov5s_flash(pretrained=True, channels=3, classes=80, autoshape=True, _verbose=True, device=None):
+    # YOLOv5-xlarge-P6 model https://github.com/ultralytics/yolov5
+    return _create('yolov5s_flash', pretrained, channels, classes, autoshape, _verbose, device)
+	
+	
+4、新建的文件夹下建议一个py：
+def yolov5_model():
+    # GPU
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    # Model
+    model = torch.hub.load('C:/Users/zhangqiang/Desktop/yolov5', 'yolov5s_flash',
+                           pretrained=True,
+                           source='local')  # or yolov5m, yolov5l, yolov5x, custom
+    model = model.to(device)
+    return model
+
+
+model = yolov5_model()
+
+
+注意：
+    yolov5s-flash.pt也必须在yolov5项目的根目录下
+    model目录下的yaml名称要与pt文件名、hubconf.py入口点名称一致，这里统一是“yolov5s_flash”
